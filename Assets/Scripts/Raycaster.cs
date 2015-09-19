@@ -25,7 +25,7 @@ public class Raycaster : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		/* USE FOR DEBUG */
+		/* DEBUG */
 		/*Vector3 forwardRay = transform.TransformDirection (Vector3.forward);
 
 		if (Physics.Raycast (transform.position, forwardRay, 10)) {
@@ -33,7 +33,7 @@ public class Raycaster : MonoBehaviour {
 		}*/
 
 
-		ray = Camera.main.ScreenPointToRay (Input.mousePosition); //focuses on center of camera
+		ray = Camera.main.ScreenPointToRay (Input.mousePosition); //focuses on center of camera (mouse-based)
 
 		if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.tag == "Interactable") { //if interactable object detected
 
@@ -49,7 +49,7 @@ public class Raycaster : MonoBehaviour {
 			original = hit.collider.GetComponent<Renderer>().material.color; //store object's original color
 			hitRenderer.material.color = Color.green; //highlight focused object
 
-			//FOR DEBUG
+			//DEBUG
 			//print (hitObjName);
 
 			selectedText.text = "Selected box: " + hitObjName;
