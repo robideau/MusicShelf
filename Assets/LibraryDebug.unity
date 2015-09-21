@@ -377,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointToDirectory: {fileID: 175377508}
   pointToDirectoryObj: {fileID: 175377507}
+  musicLibrary: {fileID: 1299595779}
 --- !u!4 &1299595781
 Transform:
   m_ObjectHideFlags: 0
