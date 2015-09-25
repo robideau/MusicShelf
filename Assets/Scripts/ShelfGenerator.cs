@@ -25,6 +25,7 @@ public class ShelfGenerator : MonoBehaviour {
 				GameObject newShelf = GameObject.CreatePrimitive(PrimitiveType.Cube);
 				newShelf.transform.position = new Vector3(xPosInitial + (shelfWidth * j), yPosInitial - (shelfHeight * i), zPos);
 				newShelf.transform.localScale = new Vector3(shelfWidth, shelfHeight, 1);
+				newShelf.tag = "Interactable";
 			}
 		}
 
