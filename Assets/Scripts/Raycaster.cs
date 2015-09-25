@@ -15,6 +15,7 @@ public class Raycaster : MonoBehaviour {
 	bool highlighterStarted = false; //determines if there is an original color to return to yet - only used once
 	Color original; //stores objects' original colors
 	public UnityEngine.UI.Text selectedText;
+	public OVRCameraRig playerCameraRig;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,8 @@ public class Raycaster : MonoBehaviour {
 
 		Vector3 cameraRay = new Vector3 (.5f, .5f, 0f);
 
-		ray = Camera.main.ViewportPointToRay (cameraRay); //focuses on center of camera (mouse-based)
+		//ray = Camera.main.ViewportPointToRay (cameraRay); //focuses on center of camera (mouse-based)
+		ray = new Ray(playerCameraRig.centerEyeAnchor.transform.position, playerCameraRig.centerEyeAnchor.transform.forward);
 
 		if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.tag == "Interactable") { //if interactable object detected
 
