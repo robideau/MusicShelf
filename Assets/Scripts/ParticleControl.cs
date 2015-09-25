@@ -2,14 +2,23 @@
 using System.Collections;
 
 public class ParticleControl : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
 	
+	private ParticleSystem particleSys;
+	
+	void Start()
+	{
+		particleSys = GetComponent<ParticleSystem> ();
+
+		particleSys.loop = true;
+		particleSys.enableEmission = true;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
+	void Update() 
+	{
+		if ((Time.frameCount % 10) == 0) {
+			particleSys.Emit(1);
+		}
+		
 	}
+	
 }
