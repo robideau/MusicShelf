@@ -74,6 +74,12 @@ public class LibraryController : MonoBehaviour {
 			
 		}
 
+		if (Input.GetKeyDown ("3") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
+			
+			alphabetizeByAlbum();
+			
+		}
+
 
 
 		/*SELECT SONGS*/
@@ -137,48 +143,85 @@ public class LibraryController : MonoBehaviour {
 			print("Loading "+f.FullName);
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolders[songIndex] = audioHolder;
-			//alphabetizeByTitle(audioHolder, currentTitleIndex);
-			//audioHolder.transform.parent = musicLibrary.transform;
-			//currentTitleIndex++;
 			songIndex++;
 
-			TagModel tagModel = new TagModel();
-			
-			TagHandler tagHandler = new TagHandler(tagModel);
+			ID3v1 tagger = new ID3v1();
+
+		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open); 
 
 			Mp3File currentMP3 = new Mp3File(f);
-			
-			currentMP3.TagHandler = tagHandler;
 
-			print(currentMP3.TagHandler.Artist.Length);
+			currentMP3.Update();
 
+			tagger.Deserialize(mp3Stream);
 
-			string artist = currentMP3.TagHandler.Artist;
+			string artist = tagger.Artist;
 
-			print ("artist: " + artist);
+			//print ("artist: " + artist);
 
 			for (int i = 0; i < alphabeticalTitles.Length; i++) {
 				
 				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
 
-
-
 				if (artist.StartsWith(firstChar)) {
 					
 					audioHolder.transform.parent = alphabeticalTitles[i].transform;
-					
-					
+									
 				}
-				
-				
+
 			}
-			
-			//currentTitleIndex++;
+
 		}
 		
 		
 		return;
 
+	}
+
+	void alphabetizeByAlbum() {
+		
+		
+		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
+		
+		print (musicFiles.Length);
+		
+		foreach(FileInfo f in musicFiles) {
+			print("Loading "+f.FullName);
+			GameObject audioHolder = new GameObject(f.Name);
+			audioHolders[songIndex] = audioHolder;
+			songIndex++;
+			
+			ID3v1 tagger = new ID3v1();
+			
+			FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open); 
+			
+			Mp3File currentMP3 = new Mp3File(f);
+			
+			currentMP3.Update();
+			
+			tagger.Deserialize(mp3Stream);
+			
+			string album = tagger.Album;
+			
+			//print ("album: " + album);
+			
+			for (int i = 0; i < alphabeticalTitles.Length; i++) {
+				
+				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
+				
+				if (album.StartsWith(firstChar)) {
+					
+					audioHolder.transform.parent = alphabeticalTitles[i].transform;
+					
+				}
+				
+			}
+			
+		}
+		
+		
+		return;
+		
 	}
 
 	void generateAlphabeticalTitleHolders() {

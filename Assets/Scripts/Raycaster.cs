@@ -33,7 +33,7 @@ public class Raycaster : MonoBehaviour {
 			print ("Something in front of object");
 		}*/
 
-		Vector3 cameraRay = new Vector3 (.5f, .5f, 0f);
+		//Vector3 cameraRay = new Vector3 (.5f, .5f, 0f);
 
 		//ray = Camera.main.ViewportPointToRay (cameraRay); //focuses on center of camera (mouse-based)
 		ray = new Ray(playerCameraRig.centerEyeAnchor.transform.position, playerCameraRig.centerEyeAnchor.transform.forward);
