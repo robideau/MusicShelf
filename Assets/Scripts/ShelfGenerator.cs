@@ -1,4 +1,4 @@
-﻿//David Robideau
+//David Robideau
 //
 //Generates meshes and necessary properties for the library "shelves"
 
@@ -7,8 +7,11 @@ using System.Collections;
 
 public class ShelfGenerator : MonoBehaviour {
 
+
+
 	public int containerCount; //Number of "openable" containers that compose the shelf
 	public GameObject musicLibrary; //Holds a reference to the library
+	public GameObject shelfContainer;
 	public float xPosInitial; //The starting position of the shelves - top left corner of top left shelf
 	public float yPosInitial; //Top left corner of top left shelf
 	public float zPos;
@@ -16,9 +19,19 @@ public class ShelfGenerator : MonoBehaviour {
 	public float shelfHeight; //Heigh of each shelf
 	public int shelvesPerRow;
 	public bool assignLetters; //Determines whether or not to trigger the assignShelfLetters() function
+	public BoxNameSet boxNameSet;
+
+	public string[] defaultBoxNames = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "#", "options", "misc", "exit"};
+
+	public enum BoxNameSet {
+		DefaultSet
+		//Any other sets we may want
+	}
 
 	// Use this for initialization
 	void Start () {
+	
+		int currentShelfIndex = 0;
 
 		for (int i = 0; i < containerCount/shelvesPerRow; i++) {
 			for (int j = 0; j < shelvesPerRow; j++) {
@@ -26,12 +39,11 @@ public class ShelfGenerator : MonoBehaviour {
 				newShelf.transform.position = new Vector3(xPosInitial + (shelfWidth * j), yPosInitial - (shelfHeight * i), zPos);
 				newShelf.transform.localScale = new Vector3(shelfWidth, shelfHeight, 1);
 				newShelf.tag = "Interactable";
+				if (assignLetters) {
+					assignShelfLetters(newShelf, currentShelfIndex);
+				}
+				currentShelfIndex++;
 			}
-		}
-
-
-		if (assignLetters) {
-			assignShelfLetters ();
 		}
 	}
 	
@@ -40,7 +52,11 @@ public class ShelfGenerator : MonoBehaviour {
 	
 	}
 
-	void assignShelfLetters() {
+	void assignShelfLetters(GameObject currentShelf, int currentShelfIndex) {
+
+		if (boxNameSet == BoxNameSet.DefaultSet) {
+			currentShelf.name = "Box " + defaultBoxNames[currentShelfIndex];
+		}
 
 	}
 }
