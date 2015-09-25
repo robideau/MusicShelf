@@ -7,6 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.UI;
+using Id3Lib;
+using Mp3Lib;
 
 
 public class LibraryController : MonoBehaviour {
@@ -33,6 +35,7 @@ public class LibraryController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		/*LOAD MUSIC LIBRARY*/
 		if (Input.GetKeyDown ("tab")) { //Activate/deactivate input field
 			if (pointToDirectoryObj.activeSelf) {
 				pointToDirectory.DeactivateInputField();
@@ -58,6 +61,24 @@ public class LibraryController : MonoBehaviour {
 			
 			filesLoaded = true; //don't allow another load from this directory
 		}
+
+		if (Input.GetKeyDown ("1") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
+
+			alphabetizeByTitle();
+
+		}
+
+		if (Input.GetKeyDown ("2") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
+			
+			alphabetizeByArtist();
+			
+		}
+
+
+
+		/*SELECT SONGS*/
+		//TODO
+
 	}
 
 	void loadSoundFiles() {
@@ -65,40 +86,99 @@ public class LibraryController : MonoBehaviour {
 		DirectoryInfo directoryInfo = new DirectoryInfo (absolutePath); //open indicated directory
 		musicFiles = directoryInfo.GetFiles(); //add all files 
 
+
+	}
+
+	void alphabetizeByTitle() { //Sorts files by name - does not alphabetize beyond first letter
+
 		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
-		int currentTitleIndex = 1;
+
+		print (musicFiles.Length);
 
 		foreach(FileInfo f in musicFiles) {
 			print("Loading "+f.FullName);
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolders[songIndex] = audioHolder;
-			alphabetizeByTitle(audioHolder, currentTitleIndex);
+			//alphabetizeByTitle(audioHolder, currentTitleIndex);
 			//audioHolder.transform.parent = musicLibrary.transform;
-			currentTitleIndex++;
+			//currentTitleIndex++;
 			songIndex++;
+
+			for (int i = 0; i < alphabeticalTitles.Length; i++) {
+				
+				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
+				
+				if (audioHolder.name.ToUpper().StartsWith(firstChar)) {
+					
+					audioHolder.transform.parent = alphabeticalTitles[i].transform;
+
+					
+				}
+				
+				
+			}
+			
+			//currentTitleIndex++;
 		}
 
+
+		return;
 	}
 
-	void alphabetizeByTitle(GameObject currentAudioHolder, int currentTitleIndex) { //Sorts files by name - does not alphabetize beyond first letter
 
-		for (int i = 0; i < alphabeticalTitles.Length; i++) {
+	void alphabetizeByArtist() {
 
-			string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
+		
+		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
+		
+		print (musicFiles.Length);
+		
+		foreach(FileInfo f in musicFiles) {
+			print("Loading "+f.FullName);
+			GameObject audioHolder = new GameObject(f.Name);
+			audioHolders[songIndex] = audioHolder;
+			//alphabetizeByTitle(audioHolder, currentTitleIndex);
+			//audioHolder.transform.parent = musicLibrary.transform;
+			//currentTitleIndex++;
+			songIndex++;
 
-			if (currentAudioHolder.name.ToUpper().StartsWith(firstChar)) {
+			TagModel tagModel = new TagModel();
+			
+			TagHandler tagHandler = new TagHandler(tagModel);
 
-				currentAudioHolder.transform.parent = alphabeticalTitles[i].transform;
+			Mp3File currentMP3 = new Mp3File(f);
+			
+			currentMP3.TagHandler = tagHandler;
 
-				return;
+			print(currentMP3.TagHandler.Artist.Length);
 
+
+			string artist = currentMP3.TagHandler.Artist;
+
+			print ("artist: " + artist);
+
+			for (int i = 0; i < alphabeticalTitles.Length; i++) {
+				
+				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
+
+
+
+				if (artist.StartsWith(firstChar)) {
+					
+					audioHolder.transform.parent = alphabeticalTitles[i].transform;
+					
+					
+				}
+				
+				
 			}
-
-
+			
+			//currentTitleIndex++;
 		}
-
-		currentTitleIndex++;
+		
+		
 		return;
+
 	}
 
 	void generateAlphabeticalTitleHolders() {
