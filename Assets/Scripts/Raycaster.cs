@@ -32,8 +32,9 @@ public class Raycaster : MonoBehaviour {
 			print ("Something in front of object");
 		}*/
 
+		Vector3 cameraRay = new Vector3 (.5f, .5f, 0f);
 
-		ray = Camera.main.ScreenPointToRay (Input.mousePosition); //focuses on center of camera (mouse-based)
+		ray = Camera.main.ViewportPointToRay (cameraRay); //focuses on center of camera (mouse-based)
 
 		if (Physics.Raycast (ray, out hit) && hit.collider.gameObject.tag == "Interactable") { //if interactable object detected
 
