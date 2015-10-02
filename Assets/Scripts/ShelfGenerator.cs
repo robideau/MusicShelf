@@ -21,7 +21,7 @@ public class ShelfGenerator : MonoBehaviour {
 	public bool assignLetters; //Determines whether or not to trigger the assignShelfLetters() function
 	public BoxNameSet boxNameSet;
 
-	public string[] defaultBoxNames = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "#", "options", "misc", "exit"};
+	public string[] BoxNames = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "#", "options", "misc", "exit"};
 
 	public enum BoxNameSet {
 		DefaultSet
@@ -42,6 +42,7 @@ public class ShelfGenerator : MonoBehaviour {
 				if (assignLetters) {
 					assignShelfLetters(newShelf, currentShelfIndex);
 				}
+				newShelf.transform.parent = shelfContainer.transform;
 				currentShelfIndex++;
 			}
 		}
@@ -55,7 +56,8 @@ public class ShelfGenerator : MonoBehaviour {
 	void assignShelfLetters(GameObject currentShelf, int currentShelfIndex) {
 
 		if (boxNameSet == BoxNameSet.DefaultSet) {
-			currentShelf.name = "Box " + defaultBoxNames[currentShelfIndex];
+			currentShelf.name = "Box " + BoxNames[currentShelfIndex];
+
 		}
 
 	}

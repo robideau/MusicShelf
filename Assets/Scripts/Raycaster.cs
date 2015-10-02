@@ -9,6 +9,7 @@ using System.Collections;
 
 public class Raycaster : MonoBehaviour {
 
+	public ShelfInteraction shelfInteraction;
 	RaycastHit hit;	//potential raycaster hits
 	Ray ray; //initial ray
 	Renderer pastRenderer; //used to return objects to original color - must be initialized
@@ -51,6 +52,10 @@ public class Raycaster : MonoBehaviour {
 			pastRenderer = hit.collider.GetComponent<Renderer>();
 			original = hit.collider.GetComponent<Renderer>().material.color; //store object's original color
 			hitRenderer.material.color = Color.green; //highlight focused object
+
+			if(Input.GetKeyDown("f")) {
+				shelfInteraction.interactableSelect(hit.collider.gameObject);
+			}
 
 			//DEBUG
 			//print (hitObjName);

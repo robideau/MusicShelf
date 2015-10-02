@@ -22,6 +22,7 @@ public class LibraryController : MonoBehaviour {
 	public GameObject musicLibrary; //Contains a reference to the MusicLibrary container object
 	string[] startingChars = {"0-9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}; //jesus fucking christ just kill me right now
 	private GameObject[] alphabeticalTitles = new GameObject[27]; //Holds alphabetical-order-title file containers
+	public GameObject alphabeticalContainers;
 
 	int songIndex = 0;
 
@@ -232,8 +233,12 @@ public class LibraryController : MonoBehaviour {
 			GameObject currentFirstChar = new GameObject("Title" + firstChar.ToUpper());
 			alphabeticalTitles.SetValue(currentFirstChar, i);
 			i++;
-			currentFirstChar.transform.parent = musicLibrary.transform;
+			currentFirstChar.transform.parent = alphabeticalContainers.transform;
 			
 		}
+	}
+
+	public GameObject[] getAlphabeticalTitles() {
+		return alphabeticalTitles;
 	}
 }
