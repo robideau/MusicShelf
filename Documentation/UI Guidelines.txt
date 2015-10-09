@@ -1,0 +1,13 @@
+- Strip imported file browser down to just functionality, no default GUI
+- Create flat "screen" to allow user to choose top directory
+- No mouse interaction, base only on keyboard/gamepad inputs
+
+GAME STARTUP -
+	1) Choose library folder
+	2) Load .mp3s into alphabetical boxes
+		-Sort by artist
+		-After artist, sort by album
+		-Finally, sort by title
+	3) Select specific song
+	4) Fade out, leave user in place, begin countdown with "cancel" key
+	
