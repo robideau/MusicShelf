@@ -7,3 +7,8 @@ The second half of the project consists of a randomly-seeded visualization softw
 ### Who is responsible for this nonsense?
 
 MusicShelf is currently in development by [David Robideau](https://github.com/robideau) and [John Kirchner](https://github.com/Jjjohn). If you help out, we'd be glad to throw your name up here too.
+
+
+#### Builds
+Most recent MusicShelf.exe build - 10/10/2015
+Most recent launcher build - 10/10/2015
