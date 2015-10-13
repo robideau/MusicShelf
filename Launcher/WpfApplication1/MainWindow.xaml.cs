@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO; 
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,18 @@ namespace WpfApplication1
     {
         public MainWindow()
         {
+            string directory = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\DirConfig.txt";
+            string topdirectory = System.IO.Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             InitializeComponent();
+            if (File.Exists(directory)) {
+                System.IO.StreamReader configReader = new System.IO.StreamReader(directory);
+                FileBrowseButton.Content = configReader.ReadLine();
+                ExeFinderButton.Content = topdirectory;
+                configReader.Close();
+            }
+            else {
+                System.Windows.MessageBox.Show("DirConfig could not be found.");
+            }
         }
 
         private void fileBrowseButton_Click(object sender, RoutedEventArgs e)
@@ -46,6 +58,32 @@ namespace WpfApplication1
             catch (Exception ex)
             {
                 System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("An error occured. Please make sure that the MusicShelf .exe is present and healthy.", "Error");
+            }
+            try
+            {
+                string dirPath = @""+ExeFinderButton.Content+"\\DirConfig.txt";
+                if (File.Exists(dirPath))
+                {
+                    string line1 = "Music library directory: " + FileBrowseButton.Content + "\r\n";
+                    string line2 = "MusicShelf.exe location: " + ExeFinderButton.Content;
+                    System.IO.StreamWriter configFile = new System.IO.StreamWriter(dirPath);
+                    configFile.Write(line1);
+                    configFile.Write(line2);
+                    configFile.Close();
+                    /*Console.Write("file exists.");
+                    TextWriter tw = new StreamWriter(dirPath, true);
+                    tw.WriteLine("Music library directory: ");
+                    tw.WriteLine(FileBrowseButton.Content);
+                    tw.Close();*/
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("DirConfig.txt could not be found.");
+                }
+            }
+            catch (IOException ex)
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show("An error occured writing to config file.");
             }
         }
 

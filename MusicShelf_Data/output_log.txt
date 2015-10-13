@@ -1,0 +1,35 @@
+Mono path[0] = 'F:/Projects/Unity/MusicShelf/MusicShelf_Data/Managed'
+Mono path[1] = 'F:/Projects/Unity/MusicShelf/MusicShelf_Data/Mono'
+Mono config path = 'F:/Projects/Unity/MusicShelf/MusicShelf_Data/Mono/etc'
+PlayerConnection initialized from F:/Projects/Unity/MusicShelf/MusicShelf_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55166
+Multi-casting "[IP] 192.168.0.3 [Port] 55166 [Flags] 2 [Guid] 3826172644 [EditorId] 1834004278 [Version] 1048832 [Id] WindowsPlayer(David-PC) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [192.168.0.3:55166]
+Initialize engine version: 5.2.0f3 (e7947df39b5c)
+[VRDevice] Successfully created device oculus.
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 770 (ID=0x1184)
+    Vendor:   NVIDIA
+    VRAM:     1989 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Id3Lib.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Id3Lib.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Mp3Lib.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\Mp3Lib.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\System.Drawing.dll (this message is harmless)
+Loading F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\System.Drawing.dll into Unity Child Domain
+Platform assembly: F:\Projects\Unity\MusicShelf\MusicShelf_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.041 seconds
+desktop: 2560x1440 110Hz; virtual: 4720x1920 at -1080,-207
+<RI> Initializing input.
+<RI> Input initialized.
