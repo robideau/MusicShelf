@@ -9,13 +9,14 @@ using System.IO;
 using UnityEngine.UI;
 using Id3Lib;
 using Mp3Lib;
+using System.Linq;
 
 
 public class LibraryController : MonoBehaviour {
 
 	string absolutePath = "./MusicLibraryDefault/";	//Default music library location
-	//string[] fileTypes = {"ogg", "wav", "mp3"};	//Supported file types
-	FileInfo[] musicFiles; //holds all found music files
+	string[] fileTypes = {".ogg", ".wav", ".mp3"};	//Supported file types
+	List<FileInfo> musicFiles = new List<FileInfo>(); //holds all found music files
 	public UnityEngine.UI.InputField pointToDirectory; //Input field UI object
 	public GameObject pointToDirectoryObj; //Input field represented as active/inactive game object
 	bool filesLoaded = true; //If files have been searched/loaded since directory selected
@@ -31,13 +32,17 @@ public class LibraryController : MonoBehaviour {
 
 		generateAlphabeticalTitleHolders(); //Generates "TitleX" containers, where X is each letter/number of the alphabet - move to update?
 
+		string[] configLines = System.IO.File.ReadAllLines (@"./DirConfig.txt");
+		absolutePath = configLines [0].Substring (25, configLines [0].Length - 25);
+		filesLoaded = false;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		/*LOAD MUSIC LIBRARY*/
-		if (Input.GetKeyDown ("tab")) { //Activate/deactivate input field
+		/*LOAD MUSIC LIBRARY override for debug*/
+		/*if (Input.GetKeyDown ("tab")) { //Activate/deactivate input field
 			if (pointToDirectoryObj.activeSelf) {
 				pointToDirectory.DeactivateInputField();
 				pointToDirectoryObj.SetActive(false);
@@ -51,7 +56,7 @@ public class LibraryController : MonoBehaviour {
 		if (Input.GetKeyDown ("return") && pointToDirectoryObj.activeSelf) {
 			absolutePath = pointToDirectory.text; //get file path from input field
 			filesLoaded = false; //force file reload
-		}
+		}*/
 
 		if (!filesLoaded) {
 			try {
@@ -81,17 +86,25 @@ public class LibraryController : MonoBehaviour {
 			
 		}
 
-
-
-		/*SELECT SONGS*/
-		//TODO
-
 	}
 
 	void loadSoundFiles() {
 
 		DirectoryInfo directoryInfo = new DirectoryInfo (absolutePath); //open indicated directory
-		musicFiles = directoryInfo.GetFiles(); //add all files 
+
+		FileInfo[] musicFileArray = directoryInfo.GetFiles ();
+		for (int i = 0; i < musicFileArray.Length; i++) {
+			musicFiles.Add (musicFileArray[i]);
+		}
+
+		//musicFiles = directoryInfo.GetFiles(); //add all files regardless of extension
+
+		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions
+			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && !musicFiles.ElementAt(i).FullName.EndsWith(".wav")) {
+				musicFiles.RemoveAt (i);
+			}
+		}
+
 
 
 	}
@@ -100,7 +113,7 @@ public class LibraryController : MonoBehaviour {
 
 		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
 
-		print (musicFiles.Length);
+		print (musicFiles.Count);
 
 		foreach(FileInfo f in musicFiles) {
 			print("Loading "+f.FullName);
@@ -138,7 +151,7 @@ public class LibraryController : MonoBehaviour {
 		
 		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
 		
-		print (musicFiles.Length);
+		print (musicFiles.Count);
 		
 		foreach(FileInfo f in musicFiles) {
 			print("Loading "+f.FullName);
@@ -184,7 +197,7 @@ public class LibraryController : MonoBehaviour {
 		
 		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
 		
-		print (musicFiles.Length);
+		print (musicFiles.Count);
 		
 		foreach(FileInfo f in musicFiles) {
 			print("Loading "+f.FullName);
@@ -241,4 +254,5 @@ public class LibraryController : MonoBehaviour {
 	public GameObject[] getAlphabeticalTitles() {
 		return alphabeticalTitles;
 	}
+
 }
