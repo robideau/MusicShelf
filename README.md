@@ -10,6 +10,6 @@ MusicShelf is currently in development by [David Robideau](https://github.com/ro
 
 
 #### Builds
-Most recent MusicShelf.exe build - 10/10/2015
+Most recent MusicShelf.exe build - 10/15/2015
 
 Most recent launcher build - 10/13/2015
