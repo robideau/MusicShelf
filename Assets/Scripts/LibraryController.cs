@@ -15,7 +15,7 @@ using System.Linq;
 public class LibraryController : MonoBehaviour {
 
 	string absolutePath = "./MusicLibraryDefault/";	//Default music library location
-	string[] fileTypes = {".ogg", ".wav", ".mp3"};	//Supported file types
+	//string[] fileTypes = {".ogg", ".wav", ".mp3"};	//Supported file types
 	List<FileInfo> musicFiles = new List<FileInfo>(); //holds all found music files
 	public UnityEngine.UI.InputField pointToDirectory; //Input field UI object
 	public GameObject pointToDirectoryObj; //Input field represented as active/inactive game object
@@ -92,14 +92,14 @@ public class LibraryController : MonoBehaviour {
 
 		DirectoryInfo directoryInfo = new DirectoryInfo (absolutePath); //open indicated directory
 
-		FileInfo[] musicFileArray = directoryInfo.GetFiles ();
+		FileInfo[] musicFileArray = directoryInfo.GetFiles ("*", SearchOption.AllDirectories);
 		for (int i = 0; i < musicFileArray.Length; i++) {
 			musicFiles.Add (musicFileArray[i]);
 		}
 
 		//musicFiles = directoryInfo.GetFiles(); //add all files regardless of extension
 
-		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions
+		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions - does not work with subdirectories?
 			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && !musicFiles.ElementAt(i).FullName.EndsWith(".wav")) {
 				musicFiles.RemoveAt (i);
 			}
@@ -111,7 +111,7 @@ public class LibraryController : MonoBehaviour {
 
 	void alphabetizeByTitle() { //Sorts files by name - does not alphabetize beyond first letter
 
-		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
+		GameObject[] audioHolders = new GameObject[10000]; //temporary placeholder max size
 
 		print (musicFiles.Count);
 
