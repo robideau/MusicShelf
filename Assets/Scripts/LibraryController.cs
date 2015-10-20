@@ -149,7 +149,7 @@ public class LibraryController : MonoBehaviour {
 	void alphabetizeByArtist() {
 
 		
-		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
+		GameObject[] audioHolders = new GameObject[10000]; //temporary placeholder max size
 		
 		print (musicFiles.Count);
 		
@@ -195,7 +195,7 @@ public class LibraryController : MonoBehaviour {
 	void alphabetizeByAlbum() {
 		
 		
-		GameObject[] audioHolders = new GameObject[100]; //temporary placeholder max size
+		GameObject[] audioHolders = new GameObject[10000]; //temporary placeholder max size
 		
 		print (musicFiles.Count);
 		

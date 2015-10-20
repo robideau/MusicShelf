@@ -8,7 +8,7 @@ using System.Collections;
 public class ShelfGenerator : MonoBehaviour {
 
 
-
+	public GameObject boxShelfPrefab; //Holds the box shelf prefab
 	public int containerCount; //Number of "openable" containers that compose the shelf
 	public GameObject musicLibrary; //Holds a reference to the library
 	public GameObject shelfContainer;
@@ -35,9 +35,11 @@ public class ShelfGenerator : MonoBehaviour {
 
 		for (int i = 0; i < containerCount/shelvesPerRow; i++) {
 			for (int j = 0; j < shelvesPerRow; j++) {
-				GameObject newShelf = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				//GameObject newShelf = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				GameObject newShelf = Instantiate(boxShelfPrefab);
+				newShelf.transform.eulerAngles = new Vector3(0, -90, 0);
 				newShelf.transform.position = new Vector3(xPosInitial + (shelfWidth * j), yPosInitial - (shelfHeight * i), zPos);
-				newShelf.transform.localScale = new Vector3(shelfWidth, shelfHeight, 1);
+				//newShelf.transform.localScale = new Vector3(shelfWidth, shelfHeight, 1);
 				newShelf.tag = "Interactable";
 				if (assignLetters) {
 					assignShelfLetters(newShelf, currentShelfIndex);
