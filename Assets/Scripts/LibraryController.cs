@@ -243,7 +243,7 @@ public class LibraryController : MonoBehaviour {
 		
 		foreach (string firstChar in startingChars) {
 			
-			GameObject currentFirstChar = new GameObject("Album Title " + firstChar.ToUpper());
+			GameObject currentFirstChar = new GameObject("Title" + firstChar.ToUpper());
 			alphabeticalTitles.SetValue(currentFirstChar, i);
 			i++;
 			currentFirstChar.transform.parent = alphabeticalContainers.transform;
