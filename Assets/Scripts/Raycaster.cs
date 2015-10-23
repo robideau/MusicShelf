@@ -45,8 +45,8 @@ public class Raycaster : MonoBehaviour {
 				pastRenderer.material.color = original; //reset previous object's original color
 			}
 
-			Object hitObj = hit.collider.gameObject; 
-			string hitObjName = hitObj.name;
+			//Object hitObj = hit.collider.gameObject; 
+			//string hitObjName = hitObj.name;
 
 			Renderer hitRenderer = hit.collider.GetComponent<Renderer>();
 			pastRenderer = hit.collider.GetComponent<Renderer>();

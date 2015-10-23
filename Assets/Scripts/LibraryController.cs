@@ -159,6 +159,7 @@ public class LibraryController : MonoBehaviour {
 		foreach(FileInfo f in musicFiles) {
 			print("Loading "+f.FullName);
 			GameObject audioHolder = new GameObject(f.Name);
+			audioHolder.name = f.FullName;
 			audioHolders[songIndex] = audioHolder;
 			songIndex++;
 

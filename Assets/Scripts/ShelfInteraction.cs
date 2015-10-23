@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 public class ShelfInteraction : MonoBehaviour {
 
@@ -26,12 +28,23 @@ public class ShelfInteraction : MonoBehaviour {
 	}
 
 	public void interactableSelect(GameObject interactable) { //reactions to different menu selections
-		string interactableName = interactable.name.Substring (4, 1); //reduce to name minus "Box "
+		//string interactableName = interactable.name.Substring (4, 1); //reduce to name minus "Box "
+		Transform interactableTransform = interactable.transform.parent;
+		string interactableName = interactableTransform.gameObject.name.Substring(4,1);
 		if (interactableName.Length == 1) { //if alphabetical box is selected
 			for (int i = 0; i < alphabeticalContainers.Length; i++) {
 				if(alphabeticalContainers.GetValue(i).ToString().Substring(5,1).ToLower() == interactableName) { //connect box to appropriate alphabetical holder
 					//do something - open menu? "slide" container out? show albums/songs?
 
+
+
+
+					//For testing purposes, load first song from box and prepare to pass to visualizer
+					GameObject alphabeticalContainer = (GameObject)alphabeticalContainers.GetValue(i);
+					Transform selectedSongTransform = alphabeticalContainer.transform.GetChild(0);
+					GameObject selectedSong = selectedSongTransform.gameObject;
+					SelectedSongInfo selectedSongInfo = SelectedSongInfo.CreateInstance<SelectedSongInfo>();
+					selectedSongInfo.path = selectedSong.name;
 				}
 			}
 		}
