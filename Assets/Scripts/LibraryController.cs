@@ -66,9 +66,10 @@ public class LibraryController : MonoBehaviour {
 			}
 			
 			filesLoaded = true; //don't allow another load from this directory
+			alphabetizeByArtist ();
 		}
 
-		if (Input.GetKeyDown ("1") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
+		/*if (Input.GetKeyDown ("1") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
 
 			alphabetizeByTitle();
 
@@ -84,7 +85,9 @@ public class LibraryController : MonoBehaviour {
 			
 			alphabetizeByAlbum();
 			
-		}
+		}*/
+
+
 
 	}
 
@@ -161,7 +164,7 @@ public class LibraryController : MonoBehaviour {
 
 			ID3v1 tagger = new ID3v1();
 
-		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open); 
+		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.ReadWrite, FileShare.None); 
 
 			Mp3File currentMP3 = new Mp3File(f);
 
@@ -230,8 +233,8 @@ public class LibraryController : MonoBehaviour {
 				}
 				
 			}
-			
 		}
+
 		
 		
 		return;
