@@ -164,7 +164,7 @@ public class LibraryController : MonoBehaviour {
 
 			ID3v1 tagger = new ID3v1();
 
-		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.ReadWrite, FileShare.None); 
+		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.Read, FileShare.None); 
 
 			Mp3File currentMP3 = new Mp3File(f);
 
