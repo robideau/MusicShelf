@@ -45,6 +45,9 @@ public class ShelfGenerator : MonoBehaviour {
 					assignShelfLetters(newShelf, currentShelfIndex);
 				}
 				newShelf.transform.parent = shelfContainer.transform;
+				TextMesh titleText = newShelf.GetComponentInChildren<TextMesh>();
+				titleText.color = Color.black;
+				titleText.text = BoxNames[currentShelfIndex].ToUpper();
 				currentShelfIndex++;
 			}
 		}

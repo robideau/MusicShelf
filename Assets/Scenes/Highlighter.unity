@@ -803,6 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34446039c011aae4fb2291a865d028fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shelfInteraction: {fileID: 0}
   selectedText: {fileID: 370024744}
   playerCameraRig: {fileID: 1884342826}
 --- !u!114 &1884342828
@@ -816,8 +817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69185268ed596974d91096e5625f33b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRig: {fileID: 0}
-  canvasUI: {fileID: 0}
 --- !u!1 &1975947563
 GameObject:
   m_ObjectHideFlags: 0

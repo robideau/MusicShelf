@@ -51,7 +51,7 @@ public class Raycaster : MonoBehaviour {
 			Renderer hitRenderer = hit.collider.GetComponent<Renderer>();
 			pastRenderer = hit.collider.GetComponent<Renderer>();
 			original = hit.collider.GetComponent<Renderer>().material.color; //store object's original color
-			hitRenderer.material.color = Color.green; //highlight focused object
+			hitRenderer.material.color = ToColor (16761477); //highlight focused object
 
 			if(Input.GetKeyDown("f")) {
 				shelfInteraction.interactableSelect(hit.collider.gameObject);
@@ -60,10 +60,18 @@ public class Raycaster : MonoBehaviour {
 			//DEBUG
 			//print (hitObjName);
 
-			selectedText.text = "Selected box: " + hitObjName;
+			//selectedText.text = "Selected box: " + hitObjName;
 
 			highlighterStarted = true; //allow other objects' original colors to be restored
 
 		}
+	}
+
+	public Color32 ToColor(int HexVal)
+	{
+		byte R = (byte)((HexVal >> 16) & 0xFF);
+		byte G = (byte)((HexVal >> 8) & 0xFF);
+		byte B = (byte)((HexVal) & 0xFF);
+		return new Color32(R, G, B, 255);
 	}
 }
