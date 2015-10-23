@@ -270,7 +270,7 @@ GameObject:
   - 4: {fileID: 847819809}
   - 114: {fileID: 847819808}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: selectedSongInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -615,6 +615,8 @@ MonoBehaviour:
   libraryController: {fileID: 1299595780}
   raycaster: {fileID: 1284875983}
   shelfgenerator: {fileID: 1299595782}
+  selectedSongInfo: {fileID: 847819807}
+  preserveData: {fileID: 847819808}
 --- !u!1 &1478083043
 GameObject:
   m_ObjectHideFlags: 0
