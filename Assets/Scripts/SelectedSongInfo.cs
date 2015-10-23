@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SelectedSongInfo : ScriptableObject {
+public class SelectedSongInfo : Component {
 	public string path;
 }

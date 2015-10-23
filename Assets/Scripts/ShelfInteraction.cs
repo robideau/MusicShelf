@@ -10,6 +10,8 @@ public class ShelfInteraction : MonoBehaviour {
 	public LibraryController libraryController;
 	public Raycaster raycaster;
 	public ShelfGenerator shelfgenerator;
+	public GameObject selectedSongInfo;
+	public PreserveData preserveData;
 
 	// Use this for initialization
 	void Start () {
@@ -43,8 +45,8 @@ public class ShelfInteraction : MonoBehaviour {
 					GameObject alphabeticalContainer = (GameObject)alphabeticalContainers.GetValue(i);
 					Transform selectedSongTransform = alphabeticalContainer.transform.GetChild(0);
 					GameObject selectedSong = selectedSongTransform.gameObject;
-					SelectedSongInfo selectedSongInfo = SelectedSongInfo.CreateInstance<SelectedSongInfo>();
-					selectedSongInfo.path = selectedSong.name;
+					preserveData.path = selectedSong.name;
+					Application.LoadLevel("ParticleRoom");
 				}
 			}
 		}
