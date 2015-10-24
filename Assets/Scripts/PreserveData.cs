@@ -5,7 +5,7 @@ public class PreserveData : MonoBehaviour {
 
 	public string path;
 
-	public void awake() {
+	public void Awake() {
 		DontDestroyOnLoad (transform.gameObject);
 	}
 }

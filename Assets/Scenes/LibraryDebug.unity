@@ -616,7 +616,6 @@ MonoBehaviour:
   raycaster: {fileID: 1284875983}
   shelfgenerator: {fileID: 1299595782}
   selectedSongInfo: {fileID: 847819807}
-  preserveData: {fileID: 847819808}
 --- !u!1 &1478083043
 GameObject:
   m_ObjectHideFlags: 0

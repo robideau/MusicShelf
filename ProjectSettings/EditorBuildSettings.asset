@@ -7,3 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/LibraryDebug.unity
+  - enabled: 1
+    path: Assets/Scenes/ParticleRoom.unity
