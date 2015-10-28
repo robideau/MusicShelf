@@ -25,3 +25,5 @@ ExportedObj/
 *.user
 *.unityproj
 *.booproj
+MusicShelf_Data/output_log.txt
+DirConfig.txt
