@@ -173,6 +173,8 @@ public class LibraryController : MonoBehaviour {
 
 			tagger.Deserialize(mp3Stream);
 
+			mp3Stream.Close();
+
 			string artist = tagger.Artist;
 
 			//print ("artist: " + artist);
@@ -218,7 +220,9 @@ public class LibraryController : MonoBehaviour {
 			currentMP3.Update();
 			
 			tagger.Deserialize(mp3Stream);
-			
+
+			mp3Stream.Close();
+
 			string album = tagger.Album;
 			
 			//print ("album: " + album);
