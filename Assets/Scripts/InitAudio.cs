@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// Initializes audio playback in Particle Room, plays song passed in through 'selectedSongInfo' object
+
+using UnityEngine;
 using System.Collections;
 using NAudio;
 using NAudio.Wave;
