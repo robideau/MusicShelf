@@ -24,6 +24,9 @@ public class LibraryController : MonoBehaviour {
 	string[] startingChars = {"0-9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}; //jesus fucking christ just kill me right now
 	private GameObject[] alphabeticalTitles = new GameObject[27]; //Holds alphabetical-order-title file containers
 	public GameObject alphabeticalContainers;
+	public bool downloadAlbumArt;
+	public AlbumArtGrabber artGrabber;
+	public GameObject albumSleevePrefab;
 
 	int songIndex = 0;
 
@@ -103,7 +106,12 @@ public class LibraryController : MonoBehaviour {
 		//musicFiles = directoryInfo.GetFiles(); //add all files regardless of extension
 
 		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions - does not work with subdirectories?
-			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && !musicFiles.ElementAt(i).FullName.EndsWith(".wav")) {
+			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && 
+			    !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && 
+			    !musicFiles.ElementAt(i).FullName.EndsWith(".wav")) 
+			    //!musicFiles.ElementAt(i).FullName.EndsWith(".jpg") && 
+			    //!musicFiles.ElementAt(i).FullName.EndsWith(".png")) 
+			    {
 				musicFiles.RemoveAt (i);
 			}
 		}
@@ -119,7 +127,7 @@ public class LibraryController : MonoBehaviour {
 		print (musicFiles.Count);
 
 		foreach(FileInfo f in musicFiles) {
-			print("Loading "+f.FullName);
+			//print("Loading "+f.FullName);
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolders[songIndex] = audioHolder;
 			//alphabetizeByTitle(audioHolder, currentTitleIndex);
@@ -154,10 +162,11 @@ public class LibraryController : MonoBehaviour {
 		
 		GameObject[] audioHolders = new GameObject[10000]; //temporary placeholder max size
 		
-		print (musicFiles.Count);
+		//print (musicFiles.Count);
 		
 		foreach(FileInfo f in musicFiles) {
-			print("Loading "+f.FullName);
+			//print("Loading "+f.FullName);
+
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolder.name = f.FullName;
 			audioHolders[songIndex] = audioHolder;
@@ -173,21 +182,65 @@ public class LibraryController : MonoBehaviour {
 
 			tagger.Deserialize(mp3Stream);
 
+			TagHandler tagHandler = new TagHandler(tagger.FrameModel);
+
 			mp3Stream.Close();
 
 			string artist = tagger.Artist;
-
-			//print ("artist: " + artist);
+			string album = tagger.Album;
+			System.Drawing.Image albumArt = tagHandler.Picture;
+			if (albumArt != null) {
+				print ("Album art exists");
+			}
 
 			for (int i = 0; i < alphabeticalTitles.Length; i++) {
 				
 				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
 
+				//Organize into specific artists and albums
 				if (artist.StartsWith(firstChar)) {
-					
-					audioHolder.transform.parent = alphabeticalTitles[i].transform;
-									
+
+					//if artist holder doesn't already exist, create - otherwise add song to artist holder
+					bool artistExists = false;
+					Transform currentArtistHolder = null;
+					foreach(Transform artistHolder in alphabeticalTitles[i].transform) {
+						if (artistHolder.name.Trim() == artist.Trim()) {
+							artistExists = true;
+							currentArtistHolder = artistHolder;
+						}
+					}
+					if (!artistExists) {
+						currentArtistHolder = new GameObject(artist).transform;
+						currentArtistHolder.transform.parent = alphabeticalTitles[i].transform;
+					}
+
+					//audioHolder.transform.parent = currentArtistHolder;
+
+					bool albumExists = false;
+					Transform currentAlbumHolder = null;
+					foreach(Transform albumHolder in currentArtistHolder.transform) {
+						if (albumHolder.name.Trim () == album.Trim()) {
+							albumExists = true;
+							currentAlbumHolder = albumHolder;
+						}
+					}
+					if (!albumExists) {
+						currentAlbumHolder = Instantiate(albumSleevePrefab).transform;
+						currentAlbumHolder.transform.parent = currentArtistHolder;
+						currentAlbumHolder.name = album;
+					}
+					/*if (!albumExists) {
+						currentAlbumHolder = new GameObject(album).transform;
+						currentAlbumHolder.transform.parent = currentArtistHolder;
+						currentAlbumHolder.gameObject.AddComponent<Renderer>();
+						currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = artGrabber.getAlbumArtAsTexture(audioHolder);
+					}*/
+
+					audioHolder.transform.parent = currentAlbumHolder;
+					currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = artGrabber.getAlbumArtAsTexture(audioHolder);
+
 				}
+
 
 			}
 
@@ -206,7 +259,7 @@ public class LibraryController : MonoBehaviour {
 		print (musicFiles.Count);
 		
 		foreach(FileInfo f in musicFiles) {
-			print("Loading "+f.FullName);
+			//print("Loading "+f.FullName);
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolders[songIndex] = audioHolder;
 			songIndex++;

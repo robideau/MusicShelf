@@ -42,7 +42,7 @@ public class ShelfInteraction : MonoBehaviour {
 
 					//For testing purposes, load first song from box and prepare to pass to visualizer
 					GameObject alphabeticalContainer = (GameObject)alphabeticalContainers.GetValue(i);
-					Transform selectedSongTransform = alphabeticalContainer.transform.GetChild(0);
+					Transform selectedSongTransform = alphabeticalContainer.transform.GetChild(0).GetChild(0).GetChild(0);
 					GameObject selectedSong = selectedSongTransform.gameObject;
 					PreserveData p = selectedSongInfo.GetComponent<PreserveData>();
 					p.path = selectedSong.name;
