@@ -24,7 +24,6 @@ public class LibraryController : MonoBehaviour {
 	string[] startingChars = {"0-9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}; //jesus fucking christ just kill me right now
 	private GameObject[] alphabeticalTitles = new GameObject[27]; //Holds alphabetical-order-title file containers
 	public GameObject alphabeticalContainers;
-	public bool downloadAlbumArt;
 	public AlbumArtGrabber artGrabber;
 	public GameObject albumSleevePrefab;
 
@@ -108,9 +107,9 @@ public class LibraryController : MonoBehaviour {
 		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions - does not work with subdirectories?
 			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && 
 			    !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && 
-			    !musicFiles.ElementAt(i).FullName.EndsWith(".wav")) 
-			    //!musicFiles.ElementAt(i).FullName.EndsWith(".jpg") && 
-			    //!musicFiles.ElementAt(i).FullName.EndsWith(".png")) 
+			    !musicFiles.ElementAt(i).FullName.EndsWith(".wav") &&
+			    !musicFiles.ElementAt(i).FullName.EndsWith(".jpg") && 
+			    !musicFiles.ElementAt(i).FullName.EndsWith(".png")) 
 			    {
 				musicFiles.RemoveAt (i);
 			}
@@ -163,36 +162,38 @@ public class LibraryController : MonoBehaviour {
 		GameObject[] audioHolders = new GameObject[10000]; //temporary placeholder max size
 		
 		//print (musicFiles.Count);
-		
+
+		string artist = "No Artist";
+		string album = "No Album";
+
 		foreach(FileInfo f in musicFiles) {
 			//print("Loading "+f.FullName);
-
 			GameObject audioHolder = new GameObject(f.Name);
 			audioHolder.name = f.FullName;
 			audioHolders[songIndex] = audioHolder;
 			songIndex++;
+			if (!(f.FullName.EndsWith(".jpg") || f.FullName.EndsWith(".png"))) {
+				ID3v1 tagger = new ID3v1();
 
-			ID3v1 tagger = new ID3v1();
+			    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.Read, FileShare.None); 
 
-		    FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.Read, FileShare.None); 
+				Mp3File currentMP3 = new Mp3File(f);
 
-			Mp3File currentMP3 = new Mp3File(f);
+				currentMP3.Update();
 
-			currentMP3.Update();
+				try {
+					tagger.Deserialize(mp3Stream);				
+					mp3Stream.Close();
+					artist = tagger.Artist;
+					album = tagger.Album;
+				} catch (Id3Lib.Exceptions.TagNotFoundException ex) {
+					album = "No Album";
+					artist = "No artist";
+					print(ex);
+				}
 
-			tagger.Deserialize(mp3Stream);
-
-			TagHandler tagHandler = new TagHandler(tagger.FrameModel);
-
-			mp3Stream.Close();
-
-			string artist = tagger.Artist;
-			string album = tagger.Album;
-			System.Drawing.Image albumArt = tagHandler.Picture;
-			if (albumArt != null) {
-				print ("Album art exists");
 			}
-
+			
 			for (int i = 0; i < alphabeticalTitles.Length; i++) {
 				
 				string firstChar = alphabeticalTitles.GetValue(i).ToString().Substring(5,1); 
@@ -237,7 +238,7 @@ public class LibraryController : MonoBehaviour {
 					}*/
 
 					audioHolder.transform.parent = currentAlbumHolder;
-					currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = artGrabber.getAlbumArtAsTexture(audioHolder);
+					currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = artGrabber.getAlbumArtAsTexture(audioHolder, f);
 
 				}
 
