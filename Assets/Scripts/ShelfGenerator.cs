@@ -22,6 +22,7 @@ public class ShelfGenerator : MonoBehaviour {
 	public int shelvesPerStack; //for use in radial configuration
 	public bool assignLetters; //Determines whether or not to trigger the assignShelfLetters() function
 	public BoxNameSet boxNameSet; //set of box names - may delete, this is mostly irrelevant at this point
+	public Shader GUI3DTextShader;
 
 	public string[] BoxNames = {"a", "b", "c",
 								"d", "e", "f",
@@ -59,6 +60,8 @@ public class ShelfGenerator : MonoBehaviour {
 				}
 				newShelf.transform.parent = shelfContainer.transform;
 				TextMesh titleText = newShelf.GetComponentInChildren<TextMesh> ();
+				titleText.GetComponent<MeshRenderer>().material.shader = GUI3DTextShader;
+				titleText.GetComponent<MeshRenderer>().material.color = Color.black;
 				titleText.color = Color.black;
 				titleText.text = BoxNames [currentShelfIndex].ToUpper ();
 				currentShelfIndex++;

@@ -70,24 +70,7 @@ public class LibraryController : MonoBehaviour {
 			filesLoaded = true; //don't allow another load from this directory
 			alphabetizeByArtist ();
 		}
-
-		/*if (Input.GetKeyDown ("1") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
-
-			alphabetizeByTitle();
-
-		}
-
-		if (Input.GetKeyDown ("2") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
-			
-			alphabetizeByArtist();
-			
-		}
-
-		if (Input.GetKeyDown ("3") && filesLoaded && !pointToDirectoryObj.activeSelf) { //alphabetize by filename - replace later with different action
-			
-			alphabetizeByAlbum();
-			
-		}*/
+		
 
 
 
