@@ -27,3 +27,5 @@ ExportedObj/
 *.booproj
 MusicShelf_Data/output_log.txt
 DirConfig.txt
+*.mp3
+TestLibrary1/
