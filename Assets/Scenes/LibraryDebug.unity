@@ -753,6 +753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833c3a5e0298a404b89b9f69e4724537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamRig: {fileID: 1284875985}
   shelves: {fileID: 1765821612}
   alphabeticalContainers: []
   libraryController: {fileID: 1299595780}

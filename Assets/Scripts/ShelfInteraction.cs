@@ -5,6 +5,7 @@ using System.IO;
 
 public class ShelfInteraction : MonoBehaviour {
 
+	public OVRCameraRig playerCamRig;
 	public GameObject shelves;
 	public GameObject[] alphabeticalContainers;
 	public LibraryController libraryController;
@@ -22,6 +23,10 @@ public class ShelfInteraction : MonoBehaviour {
 	private Vector3 boxOriginalPosition;
 	private bool boxIsOpen = false;
 	private bool waitingForArtistSelection = false;
+	private bool foldersOut = false;
+
+	private int selectedFolder = 0;
+	private Color32 folderDefaultColor = Color.white;
 
 	// Use this for initialization
 	void Start () {
@@ -43,6 +48,9 @@ public class ShelfInteraction : MonoBehaviour {
 		if (Input.GetKeyDown ("x") && !boxIsMoving && waitingForArtistSelection) {
 			boxIsMoving = true;
 			boxEndPosition = boxOriginalPosition;
+			foreach (Transform artistFolder in artistFolderContainer.transform) {
+				Destroy(artistFolder.gameObject);
+			}
 		}
 
 		if (interactable.transform.parent.transform.localPosition == boxOriginalPosition && waitingForArtistSelection) {
@@ -50,6 +58,19 @@ public class ShelfInteraction : MonoBehaviour {
 			waitingForArtistSelection = false;
 			boxIsMoving = false;
 			boxIsOpen = false;
+		}
+
+		if (foldersOut) {
+			artistFolderContainer.transform.GetChild(selectedFolder).GetChild(2).GetComponent<MeshRenderer>().material.color = ToColor(16761477);
+
+			if (Input.GetKeyDown ("s") && selectedFolder+1 < artistFolderContainer.transform.childCount) {
+				artistFolderContainer.transform.GetChild(selectedFolder).GetChild(2).GetComponent<MeshRenderer>().material.color = folderDefaultColor;
+				selectedFolder++;
+			}
+			if (Input.GetKeyDown ("w") && selectedFolder-1 >= 0) {
+				artistFolderContainer.transform.GetChild(selectedFolder).GetChild(2).GetComponent<MeshRenderer>().material.color = folderDefaultColor;
+				selectedFolder--;
+			}
 		}
 
 	}
@@ -87,8 +108,6 @@ public class ShelfInteraction : MonoBehaviour {
 
 	public void pullArtists(GameObject alphabeticalContainer, GameObject interactable) {
 
-		GameObject artistFolderContainerOriginal = artistFolderContainer;
-
 		artistFolderContainer.transform.position = interactable.transform.position;
 
 		foreach (Transform artist in alphabeticalContainer.transform) {
@@ -103,6 +122,7 @@ public class ShelfInteraction : MonoBehaviour {
 			newArtistFolder.transform.SetParent (artistFolderContainer.transform);
 			newArtistFolder.transform.position = artistFolderContainer.transform.position;
 			newArtistFolder.transform.rotation = interactable.transform.rotation;
+			newArtistFolder.transform.Rotate(new Vector3(90, 0, 90));
 			newArtistFolder.name = artist.gameObject.name;
 
 		}
@@ -111,34 +131,46 @@ public class ShelfInteraction : MonoBehaviour {
 		if (!boxIsOpen && !boxIsMoving && !waitingForArtistSelection) {
 			Transform boxOriginalTransform = interactable.transform.parent.transform;
 			boxOriginalPosition = boxOriginalTransform.localPosition;
-			float currentRotation = (270 - (interactable.transform.parent.transform.eulerAngles.y * Mathf.PI)) / 180; //Mathf.Sin() and Mathf.Cos() work with radians
+			float currentRotation = (270.0f - (interactable.transform.parent.transform.eulerAngles.y * Mathf.PI)) / 180.0f; //Mathf.Sin() and Mathf.Cos() work with radians
 			Vector3 boxEndPosition = new Vector3 (boxOriginalTransform.localPosition.x - (Mathf.Sin (currentRotation)), boxOriginalTransform.localPosition.y, boxOriginalTransform.localPosition.z + (Mathf.Cos (currentRotation)));
 			this.boxEndPosition = boxEndPosition;
 			boxIsMoving = true;
 			boxIsOpen = true;
 			waitingForArtistSelection = true;
 			raycaster.enabled = false;
+
+			//Pull folders out and place in front of camera
+			float currentY = playerCamRig.transform.position.y;
+			Vector3 currentOffset;
+			foreach (Transform folder in artistFolderContainer.transform) {
+
+				print("Folder position initial: " + folder.position);
+				currentOffset = new Vector3(folder.position.x * 0.01f, 0, folder.position.z * 0.01f);
+				folder.position = (new Vector3(folder.position.x * 0.3f, currentY, folder.position.z * 0.3f) - currentOffset*(currentY/-0.5f));
+				print ("Folder position final: " + folder.position);
+				//folder.gameObject.transform.localPosition = new Vector3(playerCamRig.transform.localPosition.x, playerCamRig.transform.localPosition.y, playerCamRig.transform.localPosition.z);
+				currentY -= 0.2f;
+
+			}
+			foldersOut = true;
+
+			//Wait for artist selection or cancel
 		}
 		
-		//Pull folder out and place in front of camera
-
-		//Wait for artist selection or cancel
-		//bool artistSelected = false;
-
-		/*while (!artistSelected) {
-			if (Input.GetKeyDown ("x")) {
-				artistSelected = true;
-				raycaster.enabled = true;
-				//Set box back to original position
-				//Reset artist folder container
-			}
-
-		}*/
 
 
 
 
 
+
+	}
+
+	public Color32 ToColor(int HexVal)
+	{
+		byte R = (byte)((HexVal >> 16) & 0xFF);
+		byte G = (byte)((HexVal >> 8) & 0xFF);
+		byte B = (byte)((HexVal) & 0xFF);
+		return new Color32(R, G, B, 255);
 	}
 
 	public void moveBox(GameObject box, Vector3 boxEndPosition) {
@@ -148,4 +180,5 @@ public class ShelfInteraction : MonoBehaviour {
 			box.transform.localPosition = Vector3.Lerp (box.transform.localPosition, boxEndPosition, Time.deltaTime * boxSpeed * 2);
 		}
 	}
+
 }
