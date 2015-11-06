@@ -674,7 +674,7 @@ MonoBehaviour:
   musicLibrary: {fileID: 1299595779}
   alphabeticalContainers: {fileID: 1765821612}
   artGrabber: {fileID: 1299595784}
-  albumSleevePrefab: {fileID: 115230, guid: 3b82c3d31c4527c499e3631f4b8e2edb, type: 2}
+  albumSleevePrefab: {fileID: 100936, guid: 7382f854baf69ba4da5587880070a055, type: 2}
 --- !u!4 &1299595781
 Transform:
   m_ObjectHideFlags: 0
@@ -764,6 +764,12 @@ MonoBehaviour:
   artistFolderContainer: {fileID: 2036611454}
   GUI3DTextShader: {fileID: 4800000, guid: c68a0269fed89be499298fb5b03060bd, type: 3}
   boxSpeed: 5
+  folderSpeed: 5
+  albumSpeed: 5
+  folderOriginalPositions: []
+  folderMidPositions: []
+  folderEndPositions: []
+  albumEndPositions: []
 --- !u!114 &1299595784
 MonoBehaviour:
   m_ObjectHideFlags: 0

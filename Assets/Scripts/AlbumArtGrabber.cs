@@ -21,21 +21,23 @@ public class AlbumArtGrabber : MonoBehaviour {
 				albumArt.LoadImage(bytes);
 				return albumArt;
 			}
-			else { //scrap album art from music file data
-				TagLib.File tagFile = TagLib.File.Create(file.name);
-				TagLib.IPicture albumPic = tagFile.Tag.Pictures [0];
-				MemoryStream stream = new MemoryStream (albumPic.Data.Data);
-				byte[] tagBytes;
-				byte[] buffer = new byte[16 * 1024];
-				using (MemoryStream ms = new MemoryStream()) {
-					int read;
-					while ((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
-						ms.Write(buffer, 0, read);
+			else {
+				if (file.name != "AlbumTitle") {//scrape album art from music file data
+					TagLib.File tagFile = TagLib.File.Create(file.name);
+					TagLib.IPicture albumPic = tagFile.Tag.Pictures [0];
+					MemoryStream stream = new MemoryStream (albumPic.Data.Data);
+					byte[] tagBytes;
+					byte[] buffer = new byte[16 * 1024];
+					using (MemoryStream ms = new MemoryStream()) {
+						int read;
+						while ((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
+							ms.Write(buffer, 0, read);
+						}
+						tagBytes = ms.ToArray();
 					}
-					tagBytes = ms.ToArray();
+					albumArt.LoadImage (tagBytes);
+					return albumArt;
 				}
-				albumArt.LoadImage (tagBytes);
-				return albumArt;
 			}
 		}
 
