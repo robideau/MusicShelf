@@ -13,11 +13,17 @@ public class InitAudio : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		GameObject selectedSongInfo = GameObject.Find("selectedSongInfo");
-		PreserveData[] pData = selectedSongInfo.GetComponents<PreserveData>();
-		string path = pData[0].path;
 
-		CloseWaveOut();
-		PlayMp3(path);
+		// If we find the selectedSongInfo object
+		// open the mp3 file and play the song.
+		if(selectedSongInfo)
+		{
+			PreserveData[] pData = selectedSongInfo.GetComponents<PreserveData>();
+			string path = pData[0].path;
+
+			CloseWaveOut();
+			PlayMp3(path);
+		}
 //		CloseWaveOut();
 
 //		audioSource = gameObject.AddComponent<AudioSource>();

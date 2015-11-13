@@ -21,14 +21,19 @@ public class ParticleControl : MonoBehaviour {
 			plist[i] = transform.GetChild(i);
 		}
 
-		GameObject selectedSongInfo = GameObject.Find("selectedSongInfo");
-		PreserveData[] pData = selectedSongInfo.GetComponents<PreserveData>();
-		string path = pData[0].path;
-
-		//grab seed, we'll use path for now
 		int seed = 0;
-		foreach(char c in path)
-			seed += c;
+		GameObject selectedSongInfo = GameObject.Find("selectedSongInfo");
+		// If we found the selectedSongInfo object, use artist info for seed.
+		// Otherwise use 0
+		if(selectedSongInfo)
+		{
+			PreserveData[] pData = selectedSongInfo.GetComponents<PreserveData>();
+			string path = pData[0].path;
+
+			//grab seed, we'll use path for now
+			foreach(char c in path)
+				seed += c;
+		}
 
 		Random.seed = seed;
 		curSelected = Random.Range(0, plist.Length);
