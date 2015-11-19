@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Id3Lib;
+using Mp3Lib;
 
 public class ShelfInteraction : MonoBehaviour {
 
@@ -43,6 +45,10 @@ public class ShelfInteraction : MonoBehaviour {
 	private bool albumSelected = false;
 
 	private bool songSelected = false;
+	private bool songsOut = false;
+	GameObject[] songHolders = new GameObject[100];
+	private int selectedSong = 0;
+	private int songIndex;
 
 	public Vector3[] folderOriginalPositions;
 	public Vector3[] folderMidPositions;
@@ -212,7 +218,7 @@ public class ShelfInteraction : MonoBehaviour {
 						scrollTarget = selectedAlbum.parent.GetChild(previouslySelectedAlbumIndex+1).localPosition + new Vector3(0, 3, 0);
 					}
 				}
-				if (Input.GetKeyDown("f") && albumsOut) {
+				if (Input.GetKeyDown("f") && albumsOut && !albumSelected) {
 					albumSelected = true;
 				}
 				selectedAlbum = selectedArtistContainer.transform.GetChild(selectedAlbumIndex);
@@ -232,6 +238,84 @@ public class ShelfInteraction : MonoBehaviour {
 		/*Song selection*/
 		try {
 			if (albumSelected && !songSelected) {
+				//print ("Album selected");
+				//Generate song names
+				folderIsMoving = false;
+
+
+				if (!songsOut) {
+					songIndex = 0;
+					foreach (Transform song in selectedAlbum) {
+						selectedAlbum.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+						if (song.gameObject.name != "AlbumTitle" &&
+						   (song.gameObject.name.EndsWith(".mp3") ||
+						 	song.gameObject.name.EndsWith(".wav") ||
+						 	song.gameObject.name.EndsWith(".ogg"))) {
+
+							FileInfo f = new FileInfo(song.gameObject.name);
+							ID3v1 tagger = new ID3v1();
+							FileStream mp3Stream = new FileStream(f.FullName, FileMode.Open, FileAccess.Read, FileShare.None); 
+							Mp3File currentMP3 = new Mp3File(f);
+							
+							currentMP3.Update();
+
+							string songName = "";
+
+							try {
+								tagger.Deserialize(mp3Stream);				
+								mp3Stream.Close();
+								songName = tagger.Song;
+							} catch (Id3Lib.Exceptions.TagNotFoundException ex) {
+								songName = "No name detected";
+								print(ex);
+							}
+
+							songHolders[songIndex] = new GameObject(song.gameObject.name);
+							songHolders[songIndex].transform.position = selectedAlbum.transform.GetChild(0).transform.position;
+							songHolders[songIndex].transform.eulerAngles = selectedAlbum.transform.GetChild(0).transform.eulerAngles;
+							//songHolders[songIndex].transform.eulerAngles -= new Vector3(0, -90, 0);
+							songHolders[songIndex].transform.position -= new Vector3(0, songIndex * 0.3f - 1.5f, 0);
+							songHolders[songIndex].AddComponent<TextMesh>();
+							songHolders[songIndex].GetComponent<TextMesh>().text = songName;
+							songHolders[songIndex].GetComponent<TextMesh>().fontSize = 90 - songName.Length;
+							songHolders[songIndex].GetComponent<TextMesh>().characterSize = .03f;
+
+							songHolders[songIndex].GetComponent<MeshRenderer>().material.shader = GUI3DTextShader;
+
+
+							songIndex++;
+						}
+					}
+					songHolders[0].GetComponent<MeshRenderer>().material.color = Color.yellow;
+					songsOut = true;
+				}
+				else {
+					songHolders[selectedSong].GetComponent<MeshRenderer>().material.color = Color.yellow;
+					if (Input.GetKeyDown("s") && (selectedSong < songIndex-1)) {
+						songHolders[selectedSong].GetComponent<MeshRenderer>().material.color = Color.white;
+						selectedSong++;
+					}
+					if (Input.GetKeyDown("w") && (selectedSong > 0)) {
+						songHolders[selectedSong].GetComponent<MeshRenderer>().material.color = Color.white;
+						selectedSong--;
+					}
+					if (Input.GetKeyDown("x")) {
+						selectedAlbum.GetChild(0).gameObject.SetActive(true);
+						for (int i = 0; i <= songIndex; i++) {
+							Destroy(songHolders[i]);
+						}
+						songsOut = false;
+						albumSelected = false;
+						selectedSong = 0;
+						songIndex = 0;
+					}
+					if (Input.GetKeyDown("f")) {
+						PreserveData p = selectedSongInfo.GetComponent<PreserveData>();
+						p.path = songHolders[selectedSong].name;
+						Application.LoadLevel("ParticleRoom");
+					}
+				}
+
 
 			}
 		} catch (UnityException) {
@@ -364,12 +448,14 @@ public class ShelfInteraction : MonoBehaviour {
 		if (folder.transform.position == folderEndPosition) {
 			folderIsMoving = false;
 			if (foldersLifted) {
+				folder.SetActive(true);
 				foldersLifted = false;
 				foldersOut = true;
 			}
 			else {
 				foldersLifted = true;
 				waitingForAlbumSelection = true;
+				folder.SetActive(false);
 			}
 			if (artistSelected && !foldersLifted) {
 				artistSelected = false;
