@@ -266,7 +266,7 @@ public class ShelfInteraction : MonoBehaviour {
 								mp3Stream.Close();
 								songName = tagger.Song;
 							} catch (Id3Lib.Exceptions.TagNotFoundException ex) {
-								songName = "No name detected";
+								songName = "[Unknown track title]";
 								print(ex);
 							}
 
@@ -274,10 +274,10 @@ public class ShelfInteraction : MonoBehaviour {
 							songHolders[songIndex].transform.position = selectedAlbum.transform.GetChild(0).transform.position;
 							songHolders[songIndex].transform.eulerAngles = selectedAlbum.transform.GetChild(0).transform.eulerAngles;
 							//songHolders[songIndex].transform.eulerAngles -= new Vector3(0, -90, 0);
-							songHolders[songIndex].transform.position -= new Vector3(0, songIndex * 0.3f - 1.5f, 0);
+							songHolders[songIndex].transform.position -= new Vector3(0, songIndex * 0.2f - 0.7f, 0);
 							songHolders[songIndex].AddComponent<TextMesh>();
 							songHolders[songIndex].GetComponent<TextMesh>().text = songName;
-							songHolders[songIndex].GetComponent<TextMesh>().fontSize = 90 - songName.Length;
+							songHolders[songIndex].GetComponent<TextMesh>().fontSize = 60 - songName.Length;
 							songHolders[songIndex].GetComponent<TextMesh>().characterSize = .03f;
 
 							songHolders[songIndex].GetComponent<MeshRenderer>().material.shader = GUI3DTextShader;
