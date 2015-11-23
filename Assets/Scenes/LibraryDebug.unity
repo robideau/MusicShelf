@@ -651,6 +651,7 @@ GameObject:
   - 114: {fileID: 1299595782}
   - 114: {fileID: 1299595783}
   - 114: {fileID: 1299595784}
+  - 114: {fileID: 1299595785}
   m_Layer: 0
   m_Name: MusicLibrary
   m_TagString: Untagged
@@ -765,6 +766,9 @@ MonoBehaviour:
   GUI3DTextShader: {fileID: 4800000, guid: c68a0269fed89be499298fb5b03060bd, type: 3}
   boxSpeed: 5
   folderSpeed: 5
+  colorAnalyzer: {fileID: 1299595785}
+  colorDetail: 5
+  colorTolerance: .0500000007
   albumSpeed: 5
   folderOriginalPositions: []
   folderMidPositions: []
@@ -779,6 +783,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dfe451090d576240864571c32c62005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1299595785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1299595779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7239b7d7994a17a4296b4c6ec9f73add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1331794950

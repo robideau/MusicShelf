@@ -20,6 +20,10 @@ public class ShelfInteraction : MonoBehaviour {
 	public float boxSpeed;
 	public float folderSpeed;
 	private GameObject interactable;
+	public ColorAnalysis colorAnalyzer;
+	public int colorDetail = 5;
+	public float colorTolerance = .05f;
+
 
 	private bool boxIsMoving = false;
 	private Vector3 boxEndPosition;
@@ -75,6 +79,7 @@ public class ShelfInteraction : MonoBehaviour {
 		interactable = new GameObject ();
 		interactable.transform.parent = new GameObject ().transform;
 		boxEndPosition = new Vector3 (0, 0, 0);
+		colorTolerance = 0.5f / colorDetail;
 	}
 	
 	// Update is called once per frame
@@ -312,6 +317,16 @@ public class ShelfInteraction : MonoBehaviour {
 					if (Input.GetKeyDown("f")) {
 						PreserveData p = selectedSongInfo.GetComponent<PreserveData>();
 						p.path = songHolders[selectedSong].name;
+						if (selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture == null) {
+							print ("null here");
+						}
+						Color[] albumColors = colorAnalyzer.findColorScheme(selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture, colorDetail, colorTolerance);
+
+						/*debug - validate colors
+						for (int i = 0; i < colorDetail; i++) {
+							print (albumColors[i]);
+						}*/
+						p.colorScheme = albumColors;
 						Application.LoadLevel("ParticleRoom");
 					}
 				}
