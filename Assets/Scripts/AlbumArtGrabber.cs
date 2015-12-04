@@ -24,6 +24,9 @@ public class AlbumArtGrabber : MonoBehaviour {
 			else {
 				if (file.name != "AlbumTitle") {//scrape album art from music file data
 					TagLib.File tagFile = TagLib.File.Create(file.name);
+					if (tagFile.Tag.Pictures.Length == 0) {
+						return null; //default texture
+					}
 					TagLib.IPicture albumPic = tagFile.Tag.Pictures [0];
 					MemoryStream stream = new MemoryStream (albumPic.Data.Data);
 					byte[] tagBytes;

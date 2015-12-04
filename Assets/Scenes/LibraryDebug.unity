@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: 
+  colorScheme: []
 --- !u!4 &847819809
 Transform:
   m_ObjectHideFlags: 0

@@ -320,13 +320,16 @@ public class ShelfInteraction : MonoBehaviour {
 						if (selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture == null) {
 							print ("null here");
 						}
-						Color[] albumColors = colorAnalyzer.findColorScheme(selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture, colorDetail, colorTolerance);
+						if (selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture != null) {
+							Color[] albumColors = colorAnalyzer.findColorScheme(selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture, colorDetail, colorTolerance);
+							p.colorScheme = albumColors;
+							for (int i = 0; i < colorDetail; i++) {
+								print (albumColors[i]);
+							}
+						};
 
-						/*debug - validate colors
-						for (int i = 0; i < colorDetail; i++) {
-							print (albumColors[i]);
-						}*/
-						p.colorScheme = albumColors;
+
+
 						Application.LoadLevel("ParticleRoom");
 					}
 				}

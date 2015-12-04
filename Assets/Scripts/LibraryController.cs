@@ -87,16 +87,17 @@ public class LibraryController : MonoBehaviour {
 
 		//musicFiles = directoryInfo.GetFiles(); //add all files regardless of extension
 
-		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions - does not work with subdirectories?
-			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") && 
-			    !musicFiles.ElementAt(i).FullName.EndsWith(".ogg") && 
-			    !musicFiles.ElementAt(i).FullName.EndsWith(".wav") &&
-			    !musicFiles.ElementAt(i).FullName.EndsWith(".jpg") && 
-			    !musicFiles.ElementAt(i).FullName.EndsWith(".png")) 
-			    {
-				musicFiles.RemoveAt (i);
-			}
-		}
+		musicFiles.RemoveAll(tempFile => !tempFile.FullName.EndsWith(".mp3") && !tempFile.FullName.EndsWith(".jpg") && !tempFile.FullName.EndsWith(".png"));
+
+//		for(int i = 0; i < musicFiles.Count; i++) { //remove all files of incorrect extensions - does not work with subdirectories?
+//			if (!musicFiles.ElementAt(i).FullName.EndsWith(".mp3") &&
+//			    !musicFiles.ElementAt(i).FullName.EndsWith(".jpg") && 
+//			    !musicFiles.ElementAt(i).FullName.EndsWith(".png")) 
+//			    {
+//				musicFiles.RemoveAt (i);
+//
+//			}
+//		}
 
 
 
@@ -170,6 +171,7 @@ public class LibraryController : MonoBehaviour {
 					artist = tagger.Artist;
 					album = tagger.Album;
 				} catch (Id3Lib.Exceptions.TagNotFoundException ex) {
+					mp3Stream.Close();
 					album = "No Album";
 					artist = "No artist";
 					print(ex);
@@ -222,6 +224,10 @@ public class LibraryController : MonoBehaviour {
 
 					audioHolder.transform.parent = currentAlbumHolder;
 					currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = artGrabber.getAlbumArtAsTexture(audioHolder, f);
+					if (currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture == null) {
+						currentAlbumHolder.gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load("defaultAlbumArt") as Texture2D;
+					}
+
 
 				}
 
