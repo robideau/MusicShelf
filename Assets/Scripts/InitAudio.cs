@@ -109,9 +109,7 @@ public class InitAudio : MonoBehaviour {
 		while (!loadAudio.isDone) {
 			yield return null;
 		}
-		print(loadAudio.GetAudioClip(false, false, AudioType.AUDIOQUEUE).name);
 		audioSource.clip = loadAudio.GetAudioClip(false);
-		print (loadAudio.error);
 		audioSource.Play();
 	}
 }
