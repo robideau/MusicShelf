@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/* David Robideau - 2015
+ * Handles all user interactions with shelves and UI objects
+ * Uses a cascading structure - start > artist selection > album selection > song selection
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -67,6 +72,7 @@ public class ShelfInteraction : MonoBehaviour {
 	private int selectedFolder = 0;
 	private int selectedAlbumIndex = 0;
 	private Color32 folderDefaultColor = Color.white;
+
 
 	// Use this for initialization
 	void Start () {
@@ -321,7 +327,6 @@ public class ShelfInteraction : MonoBehaviour {
 							print ("null here");
 						}
 						Color[] albumColors = colorAnalyzer.findColorScheme(selectedAlbum.gameObject.GetComponent<Renderer>().material.mainTexture, colorDetail, colorTolerance);
-
 						/*debug - validate colors
 						for (int i = 0; i < colorDetail; i++) {
 							print (albumColors[i]);
@@ -343,14 +348,12 @@ public class ShelfInteraction : MonoBehaviour {
 	}
 
 	public void interactableSelect(GameObject interactable) { //reactions to different menu selections
-		//string interactableName = interactable.name.Substring (4, 1); //reduce to name minus "Box "
 		this.interactable = interactable;
 		Transform interactableTransform = interactable.transform.parent;
 		string interactableName = interactableTransform.gameObject.name.Substring(4,1);
 		if (interactableName.Length == 1) { //if alphabetical box is selected
 			for (int i = 0; i < alphabeticalContainers.Length; i++) {
 				if(alphabeticalContainers.GetValue(i).ToString().Substring(5,1).ToLower() == interactableName) { //connect box to appropriate alphabetical holder
-					//do something - open menu? "slide" container out? show albums/songs?
 					alphabeticalContainer = (GameObject)alphabeticalContainers.GetValue(i);
 
 					if (!waitingForArtistSelection) {

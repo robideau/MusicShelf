@@ -1,4 +1,4 @@
-﻿//David Robideau
+﻿//David Robideau - 2015
 //
 //A simple raycaster script - sends out rays in 3D space and detects any colliders
 //Returns the name of the collider and changes material color
