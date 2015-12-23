@@ -73,6 +73,7 @@ public class ShelfInteraction : MonoBehaviour {
 	private int selectedAlbumIndex = 0;
 	private Color32 folderDefaultColor = Color.white;
 
+	public string levelToLoad;
 
 	// Use this for initialization
 	void Start () {
@@ -334,7 +335,8 @@ public class ShelfInteraction : MonoBehaviour {
 							}*/
 						};
 
-						Application.LoadLevel("ParticleRoom");
+						//Application.LoadLevel("ParticleRoom");
+						Application.LoadLevel(levelToLoad);
 					}
 				}
 

@@ -775,6 +775,7 @@ MonoBehaviour:
   folderMidPositions: []
   folderEndPositions: []
   albumEndPositions: []
+  levelToLoad: ParticleRoom2
 --- !u!114 &1299595784
 MonoBehaviour:
   m_ObjectHideFlags: 0
